@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacingGame", "ReactionTimeRacer\RacingGame\RacingGame.csproj", "{4154B7D1-430E-4C3B-8903-D6D6B7A2E47C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacingGameContentProcessors", "ReactionTimeRacer\RacingGameContentProcessors\RacingGameContentProcessors.csproj", "{30846D0E-580B-4788-BF4F-363AAE8BE55F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4154B7D1-430E-4C3B-8903-D6D6B7A2E47C}.Debug|x86.ActiveCfg = Debug|x86
+		{4154B7D1-430E-4C3B-8903-D6D6B7A2E47C}.Debug|x86.Build.0 = Debug|x86
+		{4154B7D1-430E-4C3B-8903-D6D6B7A2E47C}.Release|x86.ActiveCfg = Release|x86
+		{4154B7D1-430E-4C3B-8903-D6D6B7A2E47C}.Release|x86.Build.0 = Release|x86
+		{0C650FE9-9155-496B-837C-E128D8CCEFAC}.Debug|x86.ActiveCfg = Debug|x86
+		{0C650FE9-9155-496B-837C-E128D8CCEFAC}.Release|x86.ActiveCfg = Release|x86
+		{30846D0E-580B-4788-BF4F-363AAE8BE55F}.Debug|x86.ActiveCfg = Debug|x86
+		{30846D0E-580B-4788-BF4F-363AAE8BE55F}.Debug|x86.Build.0 = Debug|x86
+		{30846D0E-580B-4788-BF4F-363AAE8BE55F}.Release|x86.ActiveCfg = Release|x86
+		{30846D0E-580B-4788-BF4F-363AAE8BE55F}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
