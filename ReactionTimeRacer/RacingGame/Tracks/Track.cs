@@ -1208,23 +1208,23 @@ namespace RacingGame.Tracks
         /// </summary>
         private void RenderRoadTunnelVertices()
         {
-            if (roadTunnelVb == null)
-                return;
+            //if (roadTunnelVb == null)
+            //    return;
 
-            // Disable culling (render tunnel from both sides)
-            BaseGame.Device.RenderState.CullMode = CullMode.None;
+            //// Disable culling (render tunnel from both sides)
+            //BaseGame.Device.RenderState.CullMode = CullMode.None;
 
-            // Render vertices
-            BaseGame.Device.Vertices[0].SetSource(roadTunnelVb, 0,
-                TangentVertex.SizeInBytes);
-            BaseGame.Device.Indices = roadTunnelIb;
-            BaseGame.Device.DrawIndexedPrimitives(PrimitiveType.TriangleList,
-                0, 0, roadTunnelVertices.Length,
-                0, roadTunnelIndices.Length / 3);
+            //// Render vertices
+            //BaseGame.Device.Vertices[0].SetSource(roadTunnelVb, 0,
+            //    TangentVertex.SizeInBytes);
+            //BaseGame.Device.Indices = roadTunnelIb;
+            //BaseGame.Device.DrawIndexedPrimitives(PrimitiveType.TriangleList,
+            //    0, 0, roadTunnelVertices.Length,
+            //    0, roadTunnelIndices.Length / 3);
 
-            // Restore culling (default is always counter clockwise)
-            BaseGame.Device.RenderState.CullMode =
-                CullMode.CullCounterClockwiseFace;
+            //// Restore culling (default is always counter clockwise)
+            //BaseGame.Device.RenderState.CullMode =
+            //    CullMode.CullCounterClockwiseFace;
         }
         #endregion
 
