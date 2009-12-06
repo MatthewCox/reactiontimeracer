@@ -57,9 +57,9 @@ namespace RacingGame.GameLogic
         /// game. And it is a much nicer unit than miles or feet.
         /// </summary>
         public const float DefaultMaxSpeed =
-            275.0f * MphToMeterPerSec,
+            60.0f * MphToMeterPerSec,
             MaxPossibleSpeed =
-            290.0f * MphToMeterPerSec;
+            90.0f * MphToMeterPerSec;
 
         /// <summary>
         /// Max. acceleration in m/s^2 we can do per second.
@@ -593,30 +593,35 @@ namespace RacingGame.GameLogic
             // Up or left mouse button accelerates
             // Also support ASDW (querty) and AOEW (dvorak) shooter like controlling!
             float newAccelerationForce = 0.0f;
-            if (Input.KeyboardUpPressed ||
+            newAccelerationForce += maxAccelerationPerSec;)
+            /*if (Input.KeyboardUpPressed ||
                 Input.Keyboard.IsKeyDown(Keys.W) ||
                 Input.MouseLeftButtonPressed ||
                 Input.GamePadAPressed)
                 newAccelerationForce +=
                     maxAccelerationPerSec;// * moveFactor;
             // Down or right mouse button decelerates
-            else if (Input.KeyboardDownPressed ||
+            else */if (Input.KeyboardDownPressed ||
                 Input.Keyboard.IsKeyDown(Keys.S) ||
                 Input.Keyboard.IsKeyDown(Keys.O) ||
                 Input.MouseRightButtonPressed)
+            {
                 newAccelerationForce -=
                     maxAccelerationPerSec;// * moveFactor;
+                //Start new timer and log time on brake
+                StartNewLap();
+            }
             else if (Input.IsGamePadConnected)
             {
                 // More dynamic force changing with gamepad (slow, faster, etc.)
-                newAccelerationForce +=
+                /*newAccelerationForce +=
                     (Input.GamePad.Triggers.Right) *
                     maxAccelerationPerSec;// *moveFactor;
                 // Also allow pad to simulate same behaviour as on keyboard
                 if (Input.GamePad.DPad.Up == ButtonState.Pressed)
                     newAccelerationForce +=
                         maxAccelerationPerSec;
-                else if (Input.GamePad.DPad.Down == ButtonState.Pressed)
+                else */if (Input.GamePad.DPad.Down == ButtonState.Pressed)
                 {
                     newAccelerationForce -=
                         maxAccelerationPerSec;
@@ -1232,6 +1237,7 @@ namespace RacingGame.GameLogic
         }
         #endregion
 
+        #region Lane Changing
         public void MoveIntoLeftLane()
         {
             if (lane > -1)
@@ -1249,5 +1255,6 @@ namespace RacingGame.GameLogic
                 lane++;
             }
         }
+        #endregion Lane Changing
     }
 }
