@@ -617,8 +617,12 @@ namespace RacingGame.GameLogic
                     newAccelerationForce +=
                         maxAccelerationPerSec;
                 else if (Input.GamePad.DPad.Down == ButtonState.Pressed)
+                {
                     newAccelerationForce -=
                         maxAccelerationPerSec;
+                    //Start new timer and log time on brake
+                    StartNewLap();
+                }
             }
 
             // Limit acceleration (but drive as fast forwards as possible if we
