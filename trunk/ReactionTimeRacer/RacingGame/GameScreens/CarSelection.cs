@@ -62,11 +62,11 @@ namespace RacingGame.GameScreens
         private static float[] CarTypeMaxAcceleration = new float[]
             {
                 // Car 1 (orange stripes on top)
-                CarPhysics.DefaultMaxAccelerationPerSec * 0.85f, // 4 m/s^2
+                CarPhysics.DefaultMaxAccelerationPerSec * 0.5f, // 2.5 m/s^2
                 // Car 2 (blue stripes on side)
-                CarPhysics.DefaultMaxAccelerationPerSec * 1.2f, // 6 m/s^2
+                CarPhysics.DefaultMaxAccelerationPerSec * 0.58f, // 2.9 m/s^2
                 // Car 3 (Just white)
-                CarPhysics.DefaultMaxAccelerationPerSec, // 5 m/s^2
+                CarPhysics.DefaultMaxAccelerationPerSec * 0.54f, // 2.7 m/s^2
             };
         // Rest of car variables is automatically calculated below!
         #endregion
