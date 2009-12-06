@@ -1242,7 +1242,7 @@ namespace RacingGame.GameLogic
         {
             if (lane > -1)
             {
-                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, 90)) * 4.5f;
+                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * 4.5f;
                 lane--;
             }
         }
@@ -1251,7 +1251,7 @@ namespace RacingGame.GameLogic
         {
             if (lane < 1)
             {
-                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, -90)) * 4.5f;
+                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, -((float)Math.PI / 2.0f))) * 4.5f;
                 lane++;
             }
         }
