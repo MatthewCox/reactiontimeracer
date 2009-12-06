@@ -593,7 +593,7 @@ namespace RacingGame.GameLogic
             // Up or left mouse button accelerates
             // Also support ASDW (querty) and AOEW (dvorak) shooter like controlling!
             float newAccelerationForce = 0.0f;
-            newAccelerationForce += maxAccelerationPerSec;)
+            newAccelerationForce += maxAccelerationPerSec;
             /*if (Input.KeyboardUpPressed ||
                 Input.Keyboard.IsKeyDown(Keys.W) ||
                 Input.MouseLeftButtonPressed ||
