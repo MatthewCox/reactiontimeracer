@@ -89,7 +89,7 @@ namespace RacingGame.GameScreens
         /// Ignore the mouse unless it moves;
         /// this is so the mouse does not disrupt game pads and keyboard
         /// </summary>
-        bool ignoreMouse = true;
+        // bool ignoreMouse = true;
 
         /// <summary>
         /// Render game screen. Called each frame.

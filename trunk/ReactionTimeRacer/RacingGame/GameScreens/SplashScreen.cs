@@ -29,31 +29,32 @@ namespace RacingGame.GameScreens
         /// </summary>
         public bool Render()
         {
-            BaseGame.UI.UpdateCarInMenu();
+            //BaseGame.UI.UpdateCarInMenu();
 
-            ShadowMapShader.PrepareGameShadows();
+            //ShadowMapShader.PrepareGameShadows();
 
-            // Render background and black bar
-            BaseGame.UI.RenderGameBackground();
-            BaseGame.UI.RenderMenuTrackBackground();
-            BaseGame.UI.RenderBlackBar(518, 61);
+            //// Render background and black bar
+            //BaseGame.UI.RenderGameBackground();
+            //BaseGame.UI.RenderMenuTrackBackground();
+            //BaseGame.UI.RenderBlackBar(518, 61);
 
-            // Show shadows we calculated above
-            if (BaseGame.AllowShadowMapping)
-                ShaderEffect.shadowMapping.ShowShadows();
+            //// Show shadows we calculated above
+            //if (BaseGame.AllowShadowMapping)
+            //    ShaderEffect.shadowMapping.ShowShadows();
 
-            // Show Press Start to continue. 
-            if ((int)(BaseGame.TotalTime / 0.375f) % 3 != 0)
-                BaseGame.UI.Headers.RenderOnScreen(
-                    BaseGame.CalcRectangleCenteredWithGivenHeight(
-                    512, 518 + 61 / 2, 26, UIRenderer.PressStartGfxRect),
-                    UIRenderer.PressStartGfxRect);
+            //// Show Press Start to continue. 
+            //if ((int)(BaseGame.TotalTime / 0.375f) % 3 != 0)
+            //    BaseGame.UI.Headers.RenderOnScreen(
+            //        BaseGame.CalcRectangleCenteredWithGivenHeight(
+            //        512, 518 + 61 / 2, 26, UIRenderer.PressStartGfxRect),
+            //        UIRenderer.PressStartGfxRect);
 
             // Clicking or pressing start will go to the menu
-            return Input.MouseLeftButtonJustPressed ||
-                Input.KeyboardSpaceJustPressed ||
-                Input.KeyboardEscapeJustPressed ||
-                Input.GamePadStartPressed;
+            //return Input.MouseLeftButtonJustPressed ||
+            //    Input.KeyboardSpaceJustPressed ||
+            //    Input.KeyboardEscapeJustPressed ||
+            //    Input.GamePadStartPressed;
+            return true;
         }
         #endregion
     }
