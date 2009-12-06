@@ -287,6 +287,11 @@ namespace RacingGame.GameLogic
         /// Car render matrix we calculate each frame.
         /// </summary>
         Matrix carRenderMatrix = Matrix.Identity;
+
+        /// <summary>
+        /// The lane of the track the car is in.
+        /// </summary>
+        int lane = 0;
         #endregion
 
         #region Properties
@@ -406,6 +411,18 @@ namespace RacingGame.GameLogic
                 return carRenderMatrix;
             }
         }
+
+        /// <summary>
+        /// The lane of the track that the car is in.
+        /// </summary>
+        /// <returns>int</returns>
+        public int Lane
+        {
+            get
+            {
+                return lane;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -480,7 +497,6 @@ namespace RacingGame.GameLogic
         #endregion
 
         #region Update
-        float virtualRotationAmount = 0.0f;
         float rotationChange = 0.0f;
         /// <summary>
         /// Update game logic for our car.
@@ -507,92 +523,50 @@ namespace RacingGame.GameLogic
             if (moveFactor > 0.5f)
                 moveFactor = 0.5f;
 
-            #region Handle rotations
+            #region Handle Lane Changing
             float effectiveSensitivity = MinSensitivity +
                 GameSettings.Default.ControllerSensitivity;
 
-            // First handle rotations (reduce last value)
-            rotationChange *= 0.95f;
-
             // Left/right changes rotation
-            if (Input.KeyboardLeftPressed ||
-                Input.Keyboard.IsKeyDown(Keys.A))
-                rotationChange += effectiveSensitivity *
-                    MaxRotationPerSec * moveFactor / 2.5f;
-            else if (Input.KeyboardRightPressed ||
-                Input.Keyboard.IsKeyDown(Keys.D) ||
-                Input.Keyboard.IsKeyDown(Keys.E))
-                rotationChange -= effectiveSensitivity *
-                    MaxRotationPerSec * moveFactor / 2.5f;
-            else
-                rotationChange = 0;
-
-            if (Input.MouseXMovement != 0)
-                rotationChange -= effectiveSensitivity *
-                    (Input.MouseXMovement / 15.0f) *
-                    MaxRotationPerSec * moveFactor;
-            if (Input.IsGamePadConnected)
-            {
-                // More dynamic force changing with gamepad (slow, faster, etc.)
-                rotationChange -= effectiveSensitivity *
-                    Input.GamePad.ThumbSticks.Left.X *
-                    MaxRotationPerSec * moveFactor / 1.12345f;
-                // Also allow pad to simulate same behaviour as on keyboard
-                if (Input.GamePad.DPad.Left == ButtonState.Pressed)
-                    rotationChange += effectiveSensitivity *
-                        MaxRotationPerSec * moveFactor / 1.5f;
-                else if (Input.GamePad.DPad.Right == ButtonState.Pressed)
-                    rotationChange -= effectiveSensitivity *
-                        MaxRotationPerSec * moveFactor / 1.5f;
-            }
-
-            float maxRot = MaxRotationPerSec * moveFactor * 1.25f;
-
-            // Handle car rotation after collision
-            if (rotateCarAfterCollision != 0)
-            {
-                if (rotateCarAfterCollision > maxRot)
-                {
-                    rotationChange += maxRot;
-                    rotateCarAfterCollision -= maxRot;
-                }
-                else if (rotateCarAfterCollision < -maxRot)
-                {
-                    rotationChange -= maxRot;
-                    rotateCarAfterCollision += maxRot;
-                }
-                else
-                {
-                    rotationChange += rotateCarAfterCollision;
-                    rotateCarAfterCollision = 0;
-                }
-            }
-            else
-            {
-                // If we are staying or moving very slowly, limit rotation!
-                if (speed < 10.0f)
-                    rotationChange *= 0.67f + 0.33f * speed / 10.0f;
-                else
-                    rotationChange *= 1.0f + (speed - 10) / 100.0f;
-            }
-
-            // Limit rotation change to MaxRotationPerSec * 1.5 (usually for mouse)
-            if (rotationChange > maxRot)
-                rotationChange = maxRot;
-            if (rotationChange < -maxRot)
-                rotationChange = -maxRot;
-
-            // Rotate dir around up vector
-            // Interpolate rotatation amount.
-            virtualRotationAmount += rotationChange;
-            // Smooth over 200ms
-            float interpolatedRotationChange =
-                (rotationChange + virtualRotationAmount) *
-                moveFactor / 0.225f;
-            virtualRotationAmount -= interpolatedRotationChange;
             if (isCarOnGround)
-                carDir = Vector3.TransformNormal(carDir,
-                    Matrix.CreateFromAxisAngle(carUp, interpolatedRotationChange));
+            {
+                if (Input.KeyboardLeftJustPressed || Input.KeyboardKeyJustPressed(Keys.A))
+                {
+                    MoveIntoLeftLane();
+                }
+                else if (Input.KeyboardRightJustPressed || Input.KeyboardKeyJustPressed(Keys.D) || Input.KeyboardKeyJustPressed(Keys.E))
+                {
+                    MoveIntoRightLane();
+                }
+
+                /*if (Input.MouseXMovement != 0)
+                {
+                    if (Input.MouseXMovement < 100.0f)
+                    {
+                        MoveIntoLeftLane();
+                    }
+                    else if (Input.MouseXMovement > 100.0f)
+                    {
+                        MoveIntoRightLane();
+                    }
+                }*/
+                if (Input.IsGamePadConnected)
+                {
+                    /*// More dynamic force changing with gamepad (slow, faster, etc.)
+                    rotationChange -= effectiveSensitivity *
+                        Input.GamePad.ThumbSticks.Left.X *
+                        MaxRotationPerSec * moveFactor / 1.12345f;*/
+                    // Also allow pad to simulate same behaviour as on keyboard
+                    if (Input.GamePadLeftJustPressed)
+                    {
+                        MoveIntoLeftLane();
+                    }
+                    else if (Input.GamePadRightJustPressed)
+                    {
+                        MoveIntoRightLane();
+                    }
+                }
+            }
             #endregion
 
             #region Handle view distance (page up/down and mouse wheel)
@@ -1253,5 +1227,23 @@ namespace RacingGame.GameLogic
             return carMatrix;
         }
         #endregion
+
+        public void MoveIntoLeftLane()
+        {
+            if (lane > -1)
+            {
+                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, 90)) * 4.5f;
+                lane--;
+            }
+        }
+
+        public void MoveIntoRightLane()
+        {
+            if (lane < 1)
+            {
+                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, -90)) * 4.5f;
+                lane++;
+            }
+        }
     }
 }
