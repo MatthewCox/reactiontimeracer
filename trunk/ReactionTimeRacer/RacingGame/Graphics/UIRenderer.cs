@@ -690,37 +690,37 @@ namespace RacingGame.Graphics
             tachoRect.Y = BaseGame.Height-tachoRect.Bottom;
 #else
             // Draw all boxes and background stuff
-            Rectangle lapsRect = BaseGame.CalcRectangle1600(
-                10, 10, LapsGfxRect.Width, LapsGfxRect.Height);
-            ingame.RenderOnScreen(lapsRect, LapsGfxRect, baseUIColor);
+            //Rectangle lapsRect = BaseGame.CalcRectangle1600(
+            //    10, 10, LapsGfxRect.Width, LapsGfxRect.Height);
+            //ingame.RenderOnScreen(lapsRect, LapsGfxRect, baseUIColor);
 
             Rectangle timesRect = BaseGame.CalcRectangle1600(
                 10, 10, CurrentAndBestGfxRect.Width, CurrentAndBestGfxRect.Height);
             timesRect.Y = BaseGame.Height - timesRect.Bottom;
             ingame.RenderOnScreen(timesRect, CurrentAndBestGfxRect, baseUIColor);
 
-            Rectangle trackNameRect = BaseGame.CalcRectangle1600(
-                10, 10, TrackNameGfxRect.Width, TrackNameGfxRect.Height);
-            trackNameRect.X = BaseGame.Width - trackNameRect.Right;
-            ingame.RenderOnScreen(trackNameRect, TrackNameGfxRect, baseUIColor);
-            Rectangle top5Rect1 = BaseGame.CalcRectangle1600(
-                10, 4, Best5GfxRect.Width, Best5GfxRect.Height);
-            top5Rect1.X = trackNameRect.X;
-            int top5Distance = top5Rect1.Y;
-            top5Rect1.Y += trackNameRect.Bottom;
-            ingame.RenderOnScreen(top5Rect1, Best5GfxRect, baseUIColor);
-            Rectangle top5Rect2 = new Rectangle(top5Rect1.X,
-                top5Rect1.Bottom + top5Distance, top5Rect1.Width, top5Rect1.Height);
-            ingame.RenderOnScreen(top5Rect2, Best5GfxRect, baseUIColor);
-            Rectangle top5Rect3 = new Rectangle(top5Rect1.X,
-                top5Rect2.Bottom + top5Distance, top5Rect1.Width, top5Rect1.Height);
-            ingame.RenderOnScreen(top5Rect3, Best5GfxRect, baseUIColor);
-            Rectangle top5Rect4 = new Rectangle(top5Rect1.X,
-                top5Rect3.Bottom + top5Distance, top5Rect1.Width, top5Rect1.Height);
-            ingame.RenderOnScreen(top5Rect4, Best5GfxRect, baseUIColor);
-            Rectangle top5Rect5 = new Rectangle(top5Rect1.X,
-                top5Rect4.Bottom + top5Distance, top5Rect1.Width, top5Rect1.Height);
-            ingame.RenderOnScreen(top5Rect5, Best5GfxRect, baseUIColor);
+            //Rectangle trackNameRect = BaseGame.CalcRectangle1600(
+            //    10, 10, TrackNameGfxRect.Width, TrackNameGfxRect.Height);
+            //trackNameRect.X = BaseGame.Width - trackNameRect.Right;
+            //ingame.RenderOnScreen(trackNameRect, TrackNameGfxRect, baseUIColor);
+            //Rectangle top5Rect1 = BaseGame.CalcRectangle1600(
+            //    10, 4, Best5GfxRect.Width, Best5GfxRect.Height);
+            //top5Rect1.X = trackNameRect.X;
+            //int top5Distance = top5Rect1.Y;
+            //top5Rect1.Y += trackNameRect.Bottom;
+            //ingame.RenderOnScreen(top5Rect1, Best5GfxRect, baseUIColor);
+            //Rectangle top5Rect2 = new Rectangle(top5Rect1.X,
+            //    top5Rect1.Bottom + top5Distance, top5Rect1.Width, top5Rect1.Height);
+            //ingame.RenderOnScreen(top5Rect2, Best5GfxRect, baseUIColor);
+            //Rectangle top5Rect3 = new Rectangle(top5Rect1.X,
+            //    top5Rect2.Bottom + top5Distance, top5Rect1.Width, top5Rect1.Height);
+            //ingame.RenderOnScreen(top5Rect3, Best5GfxRect, baseUIColor);
+            //Rectangle top5Rect4 = new Rectangle(top5Rect1.X,
+            //    top5Rect3.Bottom + top5Distance, top5Rect1.Width, top5Rect1.Height);
+            //ingame.RenderOnScreen(top5Rect4, Best5GfxRect, baseUIColor);
+            //Rectangle top5Rect5 = new Rectangle(top5Rect1.X,
+            //    top5Rect4.Bottom + top5Distance, top5Rect1.Width, top5Rect1.Height);
+            //ingame.RenderOnScreen(top5Rect5, Best5GfxRect, baseUIColor);
 
             Rectangle tachoRect = BaseGame.CalcRectangle1600(
                 10, 10, TachoGfxRect.Width, TachoGfxRect.Height);
@@ -731,11 +731,11 @@ namespace RacingGame.Graphics
             // Rest can stay the same because we use the rectangles from now on
             ingame.RenderOnScreen(tachoRect, TachoGfxRect, baseUIColor);
 
-            // Ok, now add the numbers, text and speed values
-            TextureFontBigNumbers.WriteNumber(
-                lapsRect.X + BaseGame.XToRes1600(15),
-                lapsRect.Y + BaseGame.YToRes1200(12),
-                lapNumber);
+            //// Ok, now add the numbers, text and speed values
+            //TextureFontBigNumbers.WriteNumber(
+            //    lapsRect.X + BaseGame.XToRes1600(15),
+            //    lapsRect.Y + BaseGame.YToRes1200(12),
+            //    lapNumber);
 
             // Current and best game times
             Color highlightColor = new Color(255, 185, 80);
@@ -752,73 +752,73 @@ namespace RacingGame.Graphics
                 bestLapTime,
                 Color.White);
 
-            // Track name
-            TextureFont.WriteTextCentered(
-                trackNameRect.X + trackNameRect.Width / 2,
-                trackNameRect.Y + blockHeight / 2,
-                trackName);
+            //// Track name
+            //TextureFont.WriteTextCentered(
+            //    trackNameRect.X + trackNameRect.Width / 2,
+            //    trackNameRect.Y + blockHeight / 2,
+            //    trackName);
 
-            // Top 5
-            // Possible improvement: Show currentRank here (insert us)
-            Color rankColor =
-                bestLapTime == top5LapTimes[0] ?
-                highlightColor : Color.White;
-            TextureFont.WriteTextCentered(
-                top5Rect1.X + BaseGame.XToRes(32) / 2,
-                top5Rect1.Y + blockHeight / 2,
-                "1.", rankColor, 1.0f);
-            TextureFont.WriteGameTime(
-                top5Rect1.X + BaseGame.XToRes(35 + 15),
-                top5Rect1.Y + blockHeight / 2 - TextureFont.Height / 2,
-                top5LapTimes[0], rankColor);
+            //// Top 5
+            //// Possible improvement: Show currentRank here (insert us)
+            //Color rankColor =
+            //    bestLapTime == top5LapTimes[0] ?
+            //    highlightColor : Color.White;
+            //TextureFont.WriteTextCentered(
+            //    top5Rect1.X + BaseGame.XToRes(32) / 2,
+            //    top5Rect1.Y + blockHeight / 2,
+            //    "1.", rankColor, 1.0f);
+            //TextureFont.WriteGameTime(
+            //    top5Rect1.X + BaseGame.XToRes(35 + 15),
+            //    top5Rect1.Y + blockHeight / 2 - TextureFont.Height / 2,
+            //    top5LapTimes[0], rankColor);
 
-            rankColor =
-                bestLapTime == top5LapTimes[1] ?
-                highlightColor : Color.White;
-            TextureFont.WriteTextCentered(
-                top5Rect2.X + BaseGame.XToRes(32) / 2,
-                top5Rect2.Y + blockHeight / 2,
-                "2.", rankColor, 1.0f);
-            TextureFont.WriteGameTime(
-                top5Rect2.X + BaseGame.XToRes(35 + 15),
-                top5Rect2.Y + blockHeight / 2 - TextureFont.Height / 2,
-                top5LapTimes[1], rankColor);
+            //rankColor =
+            //    bestLapTime == top5LapTimes[1] ?
+            //    highlightColor : Color.White;
+            //TextureFont.WriteTextCentered(
+            //    top5Rect2.X + BaseGame.XToRes(32) / 2,
+            //    top5Rect2.Y + blockHeight / 2,
+            //    "2.", rankColor, 1.0f);
+            //TextureFont.WriteGameTime(
+            //    top5Rect2.X + BaseGame.XToRes(35 + 15),
+            //    top5Rect2.Y + blockHeight / 2 - TextureFont.Height / 2,
+            //    top5LapTimes[1], rankColor);
 
-            rankColor =
-                bestLapTime == top5LapTimes[2] ?
-                highlightColor : Color.White;
-            TextureFont.WriteTextCentered(
-                top5Rect3.X + BaseGame.XToRes(32) / 2,
-                top5Rect3.Y + blockHeight / 2,
-                "3.", rankColor, 1.0f);
-            TextureFont.WriteGameTime(
-                top5Rect3.X + BaseGame.XToRes(35 + 15),
-                top5Rect3.Y + blockHeight / 2 - TextureFont.Height / 2,
-                top5LapTimes[2], rankColor);
+            //rankColor =
+            //    bestLapTime == top5LapTimes[2] ?
+            //    highlightColor : Color.White;
+            //TextureFont.WriteTextCentered(
+            //    top5Rect3.X + BaseGame.XToRes(32) / 2,
+            //    top5Rect3.Y + blockHeight / 2,
+            //    "3.", rankColor, 1.0f);
+            //TextureFont.WriteGameTime(
+            //    top5Rect3.X + BaseGame.XToRes(35 + 15),
+            //    top5Rect3.Y + blockHeight / 2 - TextureFont.Height / 2,
+            //    top5LapTimes[2], rankColor);
 
-            rankColor =
-                bestLapTime == top5LapTimes[3] ?
-                highlightColor : Color.White;
-            TextureFont.WriteTextCentered(
-                top5Rect4.X + BaseGame.XToRes(32) / 2,
-                top5Rect4.Y + blockHeight / 2,
-                "4.", rankColor, 1.0f);
-            TextureFont.WriteGameTime(
-                top5Rect4.X + BaseGame.XToRes(35 + 15),
-                top5Rect4.Y + blockHeight / 2 - TextureFont.Height / 2,
-                top5LapTimes[3], rankColor);
+            //rankColor =
+            //    bestLapTime == top5LapTimes[3] ?
+            //    highlightColor : Color.White;
+            //TextureFont.WriteTextCentered(
+            //    top5Rect4.X + BaseGame.XToRes(32) / 2,
+            //    top5Rect4.Y + blockHeight / 2,
+            //    "4.", rankColor, 1.0f);
+            //TextureFont.WriteGameTime(
+            //    top5Rect4.X + BaseGame.XToRes(35 + 15),
+            //    top5Rect4.Y + blockHeight / 2 - TextureFont.Height / 2,
+            //    top5LapTimes[3], rankColor);
 
-            rankColor =
-                bestLapTime == top5LapTimes[4] ?
-                highlightColor : Color.White;
-            TextureFont.WriteTextCentered(
-                top5Rect5.X + BaseGame.XToRes(32) / 2,
-                top5Rect5.Y + blockHeight / 2,
-                "5.", rankColor, 1.0f);
-            TextureFont.WriteGameTime(
-                top5Rect5.X + BaseGame.XToRes(35 + 15),
-                top5Rect5.Y + blockHeight / 2 - TextureFont.Height / 2,
-                top5LapTimes[4], rankColor);
+            //rankColor =
+            //    bestLapTime == top5LapTimes[4] ?
+            //    highlightColor : Color.White;
+            //TextureFont.WriteTextCentered(
+            //    top5Rect5.X + BaseGame.XToRes(32) / 2,
+            //    top5Rect5.Y + blockHeight / 2,
+            //    "5.", rankColor, 1.0f);
+            //TextureFont.WriteGameTime(
+            //    top5Rect5.X + BaseGame.XToRes(35 + 15),
+            //    top5Rect5.Y + blockHeight / 2 - TextureFont.Height / 2,
+            //    top5LapTimes[4], rankColor);
 
             // Acceleration
             Point tachoPoint = new Point(
