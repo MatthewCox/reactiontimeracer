@@ -76,6 +76,24 @@ namespace RacingGame.GameLogic
             }
         }
 
+        #region Toggle Timer
+        //Timer Tirggered?
+        protected bool trigTimer = false;
+
+        //Timer Trigger
+        public bool StartTimer
+        {
+            get
+            {
+                return trigTimer;
+            }
+            set
+            {
+                trigTimer = value;
+            }
+        }
+        #endregion
+
         /// <summary>
         /// Start new lap, will reset all lap variables and the game time.
         /// If all laps are done the game is over.
@@ -253,6 +271,9 @@ namespace RacingGame.GameLogic
             victory = false;
             zoomInTime = StartGameZoomTimeMilliseconds;
             firstFrame = true;
+
+            //Added trigTimer to Reset
+            trigTimer = false;
         }
 
         /// <summary>
@@ -303,7 +324,11 @@ namespace RacingGame.GameLogic
                 return;
 
             // Increase game time
-            currentGameTimeMilliseconds += BaseGame.ElapsedTimeThisFrameInMilliseconds;
+            // Game time now only increases if the timer trigger is set
+            if (trigTimer)
+            {
+                currentGameTimeMilliseconds += BaseGame.ElapsedTimeThisFrameInMilliseconds;
+            }
         }
         #endregion
     }

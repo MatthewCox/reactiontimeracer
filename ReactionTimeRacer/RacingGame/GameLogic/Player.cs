@@ -44,7 +44,8 @@ namespace RacingGame.GameLogic
         /// <summary>
         /// The number of laps in each race
         /// </summary>
-        private const int LapCount = 3;
+        /// Changed to single lap
+        private const int LapCount = 1;
 
         /// <summary>
         /// Add lap time
@@ -133,11 +134,12 @@ namespace RacingGame.GameLogic
                             Color.Red, 1.25f);
                     }
 
-                    for (int num = 0; num < lapTimes.Count; num++)
+                    //Changed so that only the first lap is shown
+                    for (int num = 0; num < 1; num++)
                         TextureFont.WriteTextCentered(
                             BaseGame.Width / 2,
                             BaseGame.Height / 7 + BaseGame.YToRes(35) * (1 + num),
-                            "Lap " + (num + 1) + " Time: " +
+                            "Reaction Time " +
                             (((int)lapTimes[num]) / 60).ToString("00") + ":" +
                             (((int)lapTimes[num]) % 60).ToString("00") + "." +
                             (((int)(lapTimes[num] * 100)) % 100).ToString("00"),
