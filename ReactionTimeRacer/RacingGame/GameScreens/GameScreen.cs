@@ -143,7 +143,7 @@ namespace RacingGame.GameScreens
                 Sound.StopGearSound();
 
                 // Play menu music again
-                Sound.Play(Sound.Sounds.MenuMusic);
+                //Sound.Play(Sound.Sounds.MenuMusic);
 
                 // Return to menu
                 return true;
