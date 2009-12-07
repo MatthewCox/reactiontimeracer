@@ -857,6 +857,13 @@ namespace RacingGame.GameLogic
             // Also handle gravity.
             ApplyGravityAndCheckForCollisions();
             #endregion
+
+            #region Reaction Timer
+            if (Input.KeyboardLeftJustPressed || Input.KeyboardKeyJustPressed(Keys.T))
+            {
+                StartTimer = true;
+            }
+            #endregion
         }
         #endregion
 
