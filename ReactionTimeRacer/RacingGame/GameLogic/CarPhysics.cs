@@ -23,6 +23,7 @@ using RacingGame.Sounds;
 using Model = RacingGame.Graphics.Model;
 using RacingGame.Tracks;
 using RacingGame.Properties;
+using RacingGame.Landscapes;
 #endregion
 
 namespace RacingGame.GameLogic
@@ -292,6 +293,16 @@ namespace RacingGame.GameLogic
         /// The lane of the track the car is in.
         /// </summary>
         int lane = 0;
+
+        /// <summary>
+        /// CUSTOM: List of hazard objects.
+        /// </summary>
+        List<Landscape.LandscapeObject> hazardObjects = new List<Landscape.LandscapeObject>();
+
+        /// <summary>
+        /// CUSTOM: Current hazard vector.
+        /// </summary>
+        Vector3 HazardVector = new Vector3(0, 0, 0);
         #endregion
 
         #region Properties
@@ -421,6 +432,17 @@ namespace RacingGame.GameLogic
             get
             {
                 return lane;
+            }
+        }
+
+        /// <summary>
+        /// CUSTOM: List of rendered objects.
+        /// </summary>
+        public List<Landscape.LandscapeObject> HazardObjects
+        {
+            get
+            {
+                return hazardObjects;
             }
         }
         #endregion
@@ -858,10 +880,12 @@ namespace RacingGame.GameLogic
             ApplyGravityAndCheckForCollisions();
             #endregion
 
-            #region Reaction Timer
-            if (Input.KeyboardLeftJustPressed || Input.KeyboardKeyJustPressed(Keys.T))
+            #region Reaction Timer and Spawn Object
+            if (Input.KeyboardKeyJustPressed(Keys.T))
             {
                 StartTimer = true;
+                RacingGameManager.Landscape.AddObjectToRender("AlphaPalm", Matrix.CreateTranslation(CarPosition + new Vector3(20, 0, 0)), false);
+                HazardVector = CarPosition + new Vector3(20, 0, 0);
             }
             #endregion
         }
@@ -1088,6 +1112,14 @@ namespace RacingGame.GameLogic
                         carPos += correctCarPosValue * guardrailRightNormal;
                     }
                 }
+
+                #region Custom Collision
+                //Custom Collison
+                if (StartTimer && CarPosition.X >= HazardVector.X && CarPosition.Y == HazardVector.Y)
+                {
+                    StartNewLap();
+                }
+                #endregion
                 #endregion
             }
 

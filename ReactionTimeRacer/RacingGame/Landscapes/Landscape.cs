@@ -486,12 +486,12 @@ namespace RacingGame.Landscapes
             }
 
             // Make sure it is away from the road.
-            if (distance > 0 &&
-                distance - 10 < objSize)
-                distance += objSize;
-            if (distance < 0 &&
-                distance + 10 > -objSize)
-                distance -= objSize;
+            //if (distance > 0 &&
+            //    distance - 10 < objSize)
+            //    distance += objSize;
+            //if (distance < 0 &&
+            //    distance + 10 > -objSize)
+            //    distance -= objSize;
 
             AddObjectToRender(modelName,
                 Matrix.CreateRotationZ(rotation) *
@@ -728,6 +728,17 @@ namespace RacingGame.Landscapes
             get
             {
                 return bestReplay;
+            }
+        }
+
+        /// <summary>
+        /// CUSTOM: List of rendered objects.
+        /// </summary>
+        public List<LandscapeObject> LandscapeObjects
+        {
+            get
+            {
+                return landscapeObjects;
             }
         }
         #endregion
