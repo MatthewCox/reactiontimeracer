@@ -305,7 +305,7 @@ namespace RacingGame
             : base("RacingGame")
         {
             // Start playing the menu music
-            Sound.Play(Sound.Sounds.MenuMusic);
+            //Sound.Play(Sound.Sounds.MenuMusic);   // JMM - Music Removed
 
             // Create main menu at our main entry point
             gameScreens.Push(new MainMenu());
@@ -388,8 +388,8 @@ namespace RacingGame
             if (gameScreens.Count == 0)
             {
                 // Before quiting, stop music and play crash sound :)
-                Sound.PlayCrashSound(true);
-                Sound.StopMusic();
+                //Sound.PlayCrashSound(true);   //JMM - Removed crash sound REV16
+                //Sound.StopMusic();    //JMM - Music removed REV16
 
                 // Then quit
                 Exit();

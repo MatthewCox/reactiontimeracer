@@ -294,10 +294,7 @@ namespace RacingGame.GameLogic
         /// </summary>
         int lane = 0;
 
-        /// <summary>
-        /// CUSTOM: List of hazard objects.
-        /// </summary>
-        List<Landscape.LandscapeObject> hazardObjects = new List<Landscape.LandscapeObject>();
+        bool forwardHasBeenPressed = false;
 
         /// <summary>
         /// CUSTOM: Current hazard vector.
@@ -434,17 +431,6 @@ namespace RacingGame.GameLogic
                 return lane;
             }
         }
-
-        /// <summary>
-        /// CUSTOM: List of rendered objects.
-        /// </summary>
-        public List<Landscape.LandscapeObject> HazardObjects
-        {
-            get
-            {
-                return hazardObjects;
-            }
-        }
         #endregion
 
         #region Constructor
@@ -503,6 +489,10 @@ namespace RacingGame.GameLogic
             carForce = Vector3.Zero;
             trackSegmentNumber = 0;
             trackSegmentPercent = 0;
+            forwardHasBeenPressed = false;
+
+            //Added lane to Reset
+            lane = 0;
         }
 
         /// <summary>
@@ -615,15 +605,26 @@ namespace RacingGame.GameLogic
             // Up or left mouse button accelerates
             // Also support ASDW (querty) and AOEW (dvorak) shooter like controlling!
             float newAccelerationForce = 0.0f;
-            newAccelerationForce += maxAccelerationPerSec;
-            /*if (Input.KeyboardUpPressed ||
+            //newAccelerationForce += maxAccelerationPerSec;
+            if (Input.KeyboardUpPressed ||
                 Input.Keyboard.IsKeyDown(Keys.W) ||
                 Input.MouseLeftButtonPressed ||
                 Input.GamePadAPressed)
+            {
                 newAccelerationForce +=
                     maxAccelerationPerSec;// * moveFactor;
+
+                if (!forwardHasBeenPressed && isCarOnGround)
+                {
+                    forwardHasBeenPressed = true;
+                }
+            }
+            else if (forwardHasBeenPressed)
+            {
+                StartNewLap();
+            }
             // Down or right mouse button decelerates
-            else */if (Input.KeyboardDownPressed ||
+            else if (Input.KeyboardDownPressed ||
                 Input.Keyboard.IsKeyDown(Keys.S) ||
                 Input.Keyboard.IsKeyDown(Keys.O) ||
                 Input.MouseRightButtonPressed)
@@ -636,18 +637,29 @@ namespace RacingGame.GameLogic
             else if (Input.IsGamePadConnected)
             {
                 // More dynamic force changing with gamepad (slow, faster, etc.)
-                /*newAccelerationForce +=
+                newAccelerationForce +=
                     (Input.GamePad.Triggers.Right) *
                     maxAccelerationPerSec;// *moveFactor;
                 // Also allow pad to simulate same behaviour as on keyboard
                 if (Input.GamePad.DPad.Up == ButtonState.Pressed)
+                {
                     newAccelerationForce +=
                         maxAccelerationPerSec;
-                else */if (Input.GamePad.DPad.Down == ButtonState.Pressed)
+
+                    if (!forwardHasBeenPressed && isCarOnGround)
+                    {
+                        forwardHasBeenPressed = true;
+                    }
+                }
+                else if (Input.GamePad.DPad.Down == ButtonState.Pressed)
                 {
                     newAccelerationForce -=
                         maxAccelerationPerSec;
                     //Start new timer and log time on brake
+                    StartNewLap();
+                }
+                else if (forwardHasBeenPressed)
+                {
                     StartNewLap();
                 }
             }
@@ -1115,7 +1127,7 @@ namespace RacingGame.GameLogic
 
                 #region Custom Collision
                 //Custom Collison
-                if (StartTimer && CarPosition.X >= HazardVector.X && CarPosition.Y == HazardVector.Y)
+                if (StartTimer && CarPosition.X >= HazardVector.X - 3 && CarPosition.X <= HazardVector.X + 3 && CarPosition.Y == HazardVector.Y)
                 {
                     StartNewLap();
                 }

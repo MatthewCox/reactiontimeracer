@@ -51,7 +51,7 @@ namespace RacingGame.GameScreens
             Sound.StartGearSound();
 
             // Play game music
-            Sound.Play(Sound.Sounds.GameMusic);
+            //Sound.Play(Sound.Sounds.GameMusic); //JMM - Music removed 6/11
         }
         #endregion
 
@@ -143,7 +143,7 @@ namespace RacingGame.GameScreens
                 Sound.StopGearSound();
 
                 // Play menu music again
-                //Sound.Play(Sound.Sounds.MenuMusic);
+                //Sound.Play(Sound.Sounds.MenuMusic);   //JMM - Music Removed 6/12
 
                 // Return to menu
                 return true;

@@ -44,7 +44,7 @@ namespace RacingGame.GameScreens
             ShadowsGfxRect = new Rectangle(616, 226, 90, 36),
             HighDetailGfxRect = new Rectangle(784, 226, 120, 36),
             SoundGfxRect = new Rectangle(384, 281, 448, 39),
-            MusicGfxRect = new Rectangle(384, 354, 448, 39),
+            //MusicGfxRect = new Rectangle(384, 354, 448, 39),  //JMM - Music removed
             SensitivityGfxRect = new Rectangle(384, 428, 448, 39);
         #endregion
 
@@ -65,7 +65,7 @@ namespace RacingGame.GameScreens
         bool usePostScreenShaders = true;
         bool useShadowMapping = true;
         bool useHighDetail = true;
-        float currentMusicVolume = 1.0f;
+        //float currentMusicVolume = 1.0f;  //JMM - Music removed
         float currentSoundVolume = 1.0f;
         float currentSensitivity = 1.0f;
         /// <summary>
@@ -91,7 +91,7 @@ namespace RacingGame.GameScreens
             useHighDetail = BaseGame.HighDetail;
 
             // Get music and sound volume
-            currentMusicVolume = GameSettings.Default.MusicVolume;
+            //currentMusicVolume = GameSettings.Default.MusicVolume;    //JMM - Music removed 6/12
             currentSoundVolume = GameSettings.Default.SoundVolume;
 
             // Get sensitivity
@@ -321,7 +321,7 @@ namespace RacingGame.GameScreens
                 gfxRect);
             #endregion
 
-            #region Music volume
+            /*#region Music volume                                          // JMM - Music removed 6/12
             Rectangle musicRect = BaseGame.CalcRectangleKeep4To3(
                 MusicGfxRect);
             musicRect.Y += BaseGame.YToRes768(125);
@@ -365,7 +365,7 @@ namespace RacingGame.GameScreens
                 gfxRect);
             #endregion
 
-            Sound.SetVolumes(currentSoundVolume, currentMusicVolume);
+            Sound.SetVolumes(currentSoundVolume, currentMusicVolume);*/
 
             #region Controller sensitivity
             Rectangle sensitivityRect = BaseGame.CalcRectangleKeep4To3(
@@ -491,7 +491,7 @@ namespace RacingGame.GameScreens
                 GameSettings.Default.PostScreenEffects = usePostScreenShaders;
                 GameSettings.Default.ShadowMapping = useShadowMapping;
                 GameSettings.Default.HighDetail = useHighDetail;
-                GameSettings.Default.MusicVolume = currentMusicVolume;
+                //GameSettings.Default.MusicVolume = currentMusicVolume;    //JMM - Music removed 6/12
                 GameSettings.Default.SoundVolume = currentSoundVolume;
                 GameSettings.Default.ControllerSensitivity = currentSensitivity;
 

@@ -117,7 +117,7 @@ namespace RacingGame.GameLogic
                         this.levelNum, (int)this.BestTimeMilliseconds);
                     this.currentGameTimeMilliseconds = this.BestTimeMilliseconds;
 
-                    if (victory)
+                    /*if (victory)                                      //JMM - Removed victory message REV16
                     {
                         // Display Victory message
                         TextureFont.WriteTextCentered(
@@ -132,7 +132,7 @@ namespace RacingGame.GameLogic
                             BaseGame.Width / 2, BaseGame.Height / 7,
                             "Game Over! You lost.",
                             Color.Red, 1.25f);
-                    }
+                    }*/
 
                     //Changed so that only the first lap is shown
                     for (int num = 0; num < 1; num++)
@@ -144,11 +144,11 @@ namespace RacingGame.GameLogic
                             (((int)lapTimes[num]) % 60).ToString("00") + "." +
                             (((int)(lapTimes[num] * 100)) % 100).ToString("00"),
                             Color.White, 1.25f);
-                    TextureFont.WriteTextCentered(
+                    /*TextureFont.WriteTextCentered(                                        //JMM - Removed rank REV16
                         BaseGame.Width / 2,
                         BaseGame.Height / 7 + BaseGame.YToRes(35) * (1 + lapTimes.Count),
                         "Rank: " + (1 + rank),
-                        Color.White, 1.25f);
+                        Color.White, 1.25f);*/
 
                     // Don't continue processing game logic
                     return;
@@ -193,7 +193,7 @@ namespace RacingGame.GameLogic
                     // Then game is over and we won!
                     isGameOver = true;
                     victory = true;
-                    Sound.Play(Sound.Sounds.Victory);
+                    //Sound.Play(Sound.Sounds.Victory);     //JMM - Removed victory sound REV16
 
                     // Also stop engine sound
                     Sound.StopGearSound();
