@@ -512,6 +512,10 @@ namespace RacingGame.GameLogic
             //Added Hazard Vectors to Reset
             HazardVectors = new Vector3[100];
             HazardVector = 0;
+
+            //Added Hazard Bools to Reset
+            HazardSwerve = false;
+            HazardBrake = false;
         }
 
         /// <summary>
