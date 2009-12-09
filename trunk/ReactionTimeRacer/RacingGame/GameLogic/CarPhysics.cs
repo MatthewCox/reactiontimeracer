@@ -297,9 +297,24 @@ namespace RacingGame.GameLogic
         bool forwardHasBeenPressed = false;
 
         /// <summary>
-        /// CUSTOM: Current hazard vector.
+        /// CUSTOM: Hazard Vectors Array.
         /// </summary>
-        Vector3 HazardVector = new Vector3(0, 0, 0);
+        Vector3[] HazardVectors = new Vector3[100];
+
+        /// <summary>
+        /// CUSTOM: Current Hazard Vector.
+        /// </summary>
+        int HazardVector = 0;
+
+        /// <summary>
+        /// CUSTOM: Swerve Hazard.
+        /// </summary>
+        bool HazardSwerve = false;
+
+        /// <summary>
+        /// CUSTOM: Brake Hazard.
+        /// </summary>
+        bool HazardBrake = false;
         #endregion
 
         #region Properties
@@ -493,6 +508,10 @@ namespace RacingGame.GameLogic
 
             //Added lane to Reset
             lane = 0;
+
+            //Added Hazard Vectors to Reset
+            HazardVectors = new Vector3[100];
+            HazardVector = 0;
         }
 
         /// <summary>
@@ -545,10 +564,20 @@ namespace RacingGame.GameLogic
                 if (Input.KeyboardLeftJustPressed || Input.KeyboardKeyJustPressed(Keys.A))
                 {
                     MoveIntoLeftLane();
+
+                    if (HazardSwerve)
+                    {
+                        StartNewLap();
+                    }
                 }
                 else if (Input.KeyboardRightJustPressed || Input.KeyboardKeyJustPressed(Keys.D) || Input.KeyboardKeyJustPressed(Keys.E))
                 {
                     MoveIntoRightLane();
+
+                    if (HazardSwerve)
+                    {
+                        StartNewLap();
+                    }
                 }
 
                 /*if (Input.MouseXMovement != 0)
@@ -611,8 +640,12 @@ namespace RacingGame.GameLogic
                 Input.MouseLeftButtonPressed ||
                 Input.GamePadAPressed)
             {
-                newAccelerationForce +=
-                    maxAccelerationPerSec;// * moveFactor;
+                //Only accelerates in brake isn't being used
+                if (Input.Keyboard.IsKeyUp(Keys.Down))
+                {
+                    newAccelerationForce +=
+                        maxAccelerationPerSec;// * moveFactor;
+                }
 
                 if (!forwardHasBeenPressed && isCarOnGround)
                 {
@@ -624,15 +657,19 @@ namespace RacingGame.GameLogic
                 StartNewLap();
             }
             // Down or right mouse button decelerates
-            else if (Input.KeyboardDownPressed ||
+            if (Input.KeyboardDownPressed ||
                 Input.Keyboard.IsKeyDown(Keys.S) ||
                 Input.Keyboard.IsKeyDown(Keys.O) ||
                 Input.MouseRightButtonPressed)
             {
                 newAccelerationForce -=
                     maxAccelerationPerSec;// * moveFactor;
-                //Start new timer and log time on brake
-                StartNewLap();
+
+                //Log time when car hits 0 MPH but only if a brake hazard was spawned.
+                if(HazardBrake && speed <= 0.0f)
+                {
+                    StartNewLap();
+                }
             }
             else if (Input.IsGamePadConnected)
             {
@@ -893,11 +930,75 @@ namespace RacingGame.GameLogic
             #endregion
 
             #region Reaction Timer and Spawn Object
+            //Swerve Hazard - Single Hazard in Middle Lane
             if (Input.KeyboardKeyJustPressed(Keys.T))
             {
                 StartTimer = true;
-                RacingGameManager.Landscape.AddObjectToRender("AlphaPalm", Matrix.CreateTranslation(CarPosition + new Vector3(20, 0, 0)), false);
-                HazardVector = CarPosition + new Vector3(20, 0, 0);
+                HazardSwerve = true;
+                HazardBrake = false;
+                
+                //Find the middle lane to spawn the hazard
+                Vector3 hazardSpawn;
+
+                if (lane == -1)
+                {
+                    hazardSpawn = new Vector3(CarPosition.X + 10, CarPosition.Y - 4.5f, CarPosition.Z);
+                }
+                else if (lane == 1)
+                {
+                    hazardSpawn = new Vector3(CarPosition.X + 10, CarPosition.Y + 4.5f, CarPosition.Z);
+                }
+                else
+                {
+                    hazardSpawn = new Vector3(CarPosition.X + 10, CarPosition.Y, CarPosition.Z);
+                }
+
+
+                RacingGameManager.Landscape.AddObjectToRender("AlphaPalm", Matrix.CreateTranslation(hazardSpawn), false);
+                HazardVectors[HazardVector] = hazardSpawn;
+                HazardVector++;
+            }
+
+            //Brake Hazard - Hazards in All Three Lanes
+            if (Input.KeyboardKeyJustPressed(Keys.B))
+            {
+                StartTimer = true;
+                HazardBrake = true;
+                HazardSwerve = false;
+
+                float spawnY1, spawnY2, spawnY3;
+
+                //Find lane the car is in to spawn hazards
+                if (lane == -1)
+                {
+                    spawnY1 = CarPosition.Y;
+                    spawnY2 = CarPosition.Y - 4.5f;
+                    spawnY3 = CarPosition.Y - 9.0f;
+                }
+                else if (lane == 1)
+                {
+                    spawnY1 = CarPosition.Y + 9.0f;
+                    spawnY2 = CarPosition.Y + 4.5f;
+                    spawnY3 = CarPosition.Y;
+                }
+                else
+                {
+                    spawnY1 = CarPosition.Y + 4.5f;
+                    spawnY2 = CarPosition.Y;
+                    spawnY3 = CarPosition.Y - 4.5f;
+                }
+
+                RacingGameManager.Landscape.AddObjectToRender("AlphaPalm", Matrix.CreateTranslation(CarPosition.X + 30, spawnY1, CarPosition.Z), false);
+                HazardVectors[HazardVector] = new Vector3(CarPosition.X + 20, spawnY1, CarPosition.Z);
+                HazardVector++;
+
+                RacingGameManager.Landscape.AddObjectToRender("AlphaPalm", Matrix.CreateTranslation(CarPosition.X + 30, spawnY2, CarPosition.Z), false);
+                HazardVectors[HazardVector] = new Vector3(CarPosition.X + 20, spawnY2, CarPosition.Z);
+                HazardVector++;
+
+                RacingGameManager.Landscape.AddObjectToRender("AlphaPalm", Matrix.CreateTranslation(CarPosition.X + 30, spawnY3, CarPosition.Z), false);
+                HazardVectors[HazardVector] = new Vector3(CarPosition.X + 20, spawnY3, CarPosition.Z);
+                HazardVector++;
             }
             #endregion
         }
@@ -1127,10 +1228,20 @@ namespace RacingGame.GameLogic
 
                 #region Custom Collision
                 //Custom Collison
-                if (StartTimer && CarPosition.X >= HazardVector.X - 3 && CarPosition.X <= HazardVector.X + 3 && CarPosition.Y == HazardVector.Y)
+                if (StartTimer)
                 {
-                    StartNewLap();
+                    for (int hazard = 0; hazard < HazardVectors.Length; hazard++)
+                    {
+                        if (CarPosition.X >= HazardVectors[hazard].X - 3f && CarPosition.X <= HazardVectors[hazard].X + 3f && CarPosition.Y >= HazardVectors[hazard].Y - 0.5f && CarPosition.Y <= HazardVectors[hazard].Y + 0.5f)
+                        {
+                            StartNewLap();
+                        }
+                    }
                 }
+                //if (StartTimer && CarPosition.X >= HazardVector.X - 3f && CarPosition.X <= HazardVector.X + 3f && CarPosition.Y >= HazardVector.Y - 0.5f && CarPosition.Y <= HazardVector.Y + 0.5f)
+                //{
+                //    StartNewLap();
+                //}
                 #endregion
                 #endregion
             }
