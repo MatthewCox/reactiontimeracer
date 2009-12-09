@@ -31,20 +31,20 @@ namespace RacingGame.GameScreens
         static readonly Rectangle[] ButtonRects = new Rectangle[]
             {
                 UIRenderer.MenuButtonPlayGfxRect,
-                UIRenderer.MenuButtonHighscoresGfxRect,
-                UIRenderer.MenuButtonOptionsGfxRect,
-                UIRenderer.MenuButtonHelpGfxRect,
+                UIRenderer.MenuButtonHighscoresGfxRect,   // JMM - Removed unneeded menu options REV 16
+                //UIRenderer.MenuButtonOptionsGfxRect,
+                //UIRenderer.MenuButtonHelpGfxRect,
                 UIRenderer.MenuButtonQuitGfxRect,
             };
         static readonly Rectangle[] TextRects = new Rectangle[]
             {
                 UIRenderer.MenuTextPlayGfxRect,
-                UIRenderer.MenuTextHighscoresGfxRect,
-                UIRenderer.MenuTextOptionsGfxRect,
-                UIRenderer.MenuTextHelpGfxRect,
+                UIRenderer.MenuTextHighscoresGfxRect, // JMM - Removed unneeded menu options REV 16
+                //UIRenderer.MenuTextOptionsGfxRect,
+                //UIRenderer.MenuTextHelpGfxRect,
                 UIRenderer.MenuTextQuitGfxRect,
             };
-        const int NumberOfButtons = 5,
+        const int NumberOfButtons = 3,
             ActiveButtonWidth = 132,
             InactiveButtonWidth = 108,
             DistanceBetweenButtons = 14;
@@ -79,7 +79,7 @@ namespace RacingGame.GameScreens
         /// Current button sizes for scaling up/down smooth effect.
         /// </summary>
         float[] currentButtonSizes =
-            new float[NumberOfButtons] { 1, 0, 0, 0, 0 };
+            new float[NumberOfButtons] { 1, 0, 0 };
 
         /// <summary>
         /// Ignore the mouse unless it moves;
@@ -249,20 +249,14 @@ namespace RacingGame.GameScreens
                 switch (SelectedButton)
                 {
                     case 0:
-                        RacingGameManager.AddGameScreen(new CarSelection());
+                        RacingGameManager.AddGameScreen(new GameScreen());  //JMM - Changed to skip car selection screen REV16
                         break;
                     case 1:
                         RacingGameManager.AddGameScreen(new Highscores());
                         break;
                     case 2:
-                        RacingGameManager.AddGameScreen(new Options());
-                        break;
-                    case 3:
-                        RacingGameManager.AddGameScreen(new Help());
-                        break;
-                    case 4:
                         // Exit
-                        return true;
+                        return true;                        
                 }
             }
 

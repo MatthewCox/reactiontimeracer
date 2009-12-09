@@ -53,7 +53,7 @@ namespace RacingGame.Sounds
         /// <summary>
         /// Music category to change volume of music.
         /// </summary>
-        static AudioCategory musicCategory;
+        //static AudioCategory musicCategory;   //JMM - Music removed 6/12
         #endregion
 
         #region Enums
@@ -84,8 +84,8 @@ namespace RacingGame.Sounds
             Victory,
             CarLose,
             // Music
-            MenuMusic,
-            GameMusic,
+            //MenuMusic,    //JMM - Music removed 6/12
+            //GameMusic,
         }
         #endregion
 
@@ -118,10 +118,9 @@ namespace RacingGame.Sounds
                 // Get the categories needed to change volume and pitching
                 defaultCategory = audioEngine.GetCategory("Default");
                 gearsCategory = audioEngine.GetCategory("Gears");
-                musicCategory = audioEngine.GetCategory("Music");
+                //musicCategory = audioEngine.GetCategory("Music"); //JMM - Music removed 6/12
 
-                SetVolumes(GameSettings.Default.SoundVolume,
-                    GameSettings.Default.MusicVolume);
+                SetVolumes(GameSettings.Default.SoundVolume); //JMM - Music removed 6/12
             }
             catch (NoAudioHardwareException ex)
             {
@@ -154,7 +153,7 @@ namespace RacingGame.Sounds
         }
         #endregion
 
-        #region StopMusic
+        /*#region StopMusic                         // JMM - Music removed 6/12
         /// <summary>
         /// Stop music
         /// </summary>
@@ -171,7 +170,7 @@ namespace RacingGame.Sounds
             Thread.Sleep(10);
             musicCue.Stop(AudioStopOptions.Immediate);
         }
-        #endregion
+        #endregion*/
 
         #region Play brake sound
         /// <summary>
@@ -537,13 +536,13 @@ namespace RacingGame.Sounds
                 audioEngine.Update();
         }
 
-        public static void SetVolumes(float soundVolume, float musicVolume)
+        public static void SetVolumes(float soundVolume)// , float musicVolume) // JMM - Music removed 6/12
         {
             if (audioEngine != null)
             {
                 // Update sound volumes
                 defaultCategory.SetVolume(soundVolume);
-                musicCategory.SetVolume(musicVolume);
+                //musicCategory.SetVolume(musicVolume); //JMM - Music removed 6/12
                 // Volume of gears is updated each frame
             }
         }

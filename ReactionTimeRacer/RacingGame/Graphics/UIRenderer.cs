@@ -80,10 +80,10 @@ namespace RacingGame.Graphics
         /// </summary>
         public static readonly Rectangle
             LapsGfxRect = new Rectangle(381, 132, 222, 160),
-            TachoGfxRect = new Rectangle(0, 0, 343, 341),
-            TachoArrowGfxRect = new Rectangle(347, 0, 28, 186),
-            TachoMphGfxRect = new Rectangle(184, 256, 148, 72),
-            TachoGearGfxRect = new Rectangle(286, 149, 52, 72),
+            //TachoGfxRect = new Rectangle(0, 0, 343, 341),         // JMM - Tacho not needed
+            //TachoArrowGfxRect = new Rectangle(347, 0, 28, 186),   //
+            //TachoMphGfxRect = new Rectangle(184, 256, 148, 72),   //
+            //TachoGearGfxRect = new Rectangle(286, 149, 52, 72),   //
             CurrentAndBestGfxRect = new Rectangle(381, 2, 342, 128),
             CurrentTimePosGfxRect = new Rectangle(540, 8, 170, 52),
             BestTimePosGfxRect = new Rectangle(540, 72, 170, 52),
@@ -528,17 +528,17 @@ namespace RacingGame.Graphics
         {
             BaseGame.UI.UpdateCarInMenu();
 
-            // Render game background
-            RenderGameBackground();
+            // Render game background                                   //JMM - Removed all backrounds REV16
+            //RenderGameBackground();                                   
 
             // And show track
-            RenderMenuTrackBackground();
+            //RenderMenuTrackBackground();
 
             // Render background with transparency
             // The background itself should be rendered before this ^^
-            background.RenderOnScreen(
-                BaseGame.ResolutionRect, BackgroundGfxRect,
-                ColorHelper.ApplyAlphaToColor(Color.White, 0.85f));
+            //background.RenderOnScreen(
+            //    BaseGame.ResolutionRect, BackgroundGfxRect,
+            //    ColorHelper.ApplyAlphaToColor(Color.White, 0.85f));
 
             // Show RacingGame logo bouncing with the music
             float bounceSize = 1.005f +
@@ -684,10 +684,10 @@ namespace RacingGame.Graphics
                 top5Rect4.Bottom+top5Distance, top5Rect1.Width, top5Rect1.Height);
             ingame.RenderOnScreen(top5Rect5, Best5GfxRect, baseUIColor);
 
-            Rectangle tachoRect = BaseGame.CalcRectangle1600(
-                60, 46, TachoGfxRect.Width, TachoGfxRect.Height);
-            tachoRect.X = BaseGame.Width-tachoRect.Right;
-            tachoRect.Y = BaseGame.Height-tachoRect.Bottom;
+            //Rectangle tachoRect = BaseGame.CalcRectangle1600(     // JMM - Tacho not needed
+            //    60, 46, TachoGfxRect.Width, TachoGfxRect.Height); //
+            //tachoRect.X = BaseGame.Width-tachoRect.Right;         //
+            //tachoRect.Y = BaseGame.Height-tachoRect.Bottom;       //
 #else
             // Draw all boxes and background stuff
             //Rectangle lapsRect = BaseGame.CalcRectangle1600(
@@ -722,14 +722,14 @@ namespace RacingGame.Graphics
             //    top5Rect4.Bottom + top5Distance, top5Rect1.Width, top5Rect1.Height);
             //ingame.RenderOnScreen(top5Rect5, Best5GfxRect, baseUIColor);
 
-            Rectangle tachoRect = BaseGame.CalcRectangle1600(
-                10, 10, TachoGfxRect.Width, TachoGfxRect.Height);
-            tachoRect.X = BaseGame.Width - tachoRect.Right;
-            tachoRect.Y = BaseGame.Height - tachoRect.Bottom;
+            //Rectangle tachoRect = BaseGame.CalcRectangle1600(     // JMM - Tacho removed
+            //    10, 10, TachoGfxRect.Width, TachoGfxRect.Height);
+            //tachoRect.X = BaseGame.Width - tachoRect.Right;
+            //tachoRect.Y = BaseGame.Height - tachoRect.Bottom;
 #endif
 
             // Rest can stay the same because we use the rectangles from now on
-            ingame.RenderOnScreen(tachoRect, TachoGfxRect, baseUIColor);
+            //ingame.RenderOnScreen(tachoRect, TachoGfxRect, baseUIColor);          // JMM - Tacho removed
 
             //// Ok, now add the numbers, text and speed values
             //TextureFontBigNumbers.WriteNumber(
@@ -821,42 +821,42 @@ namespace RacingGame.Graphics
             //    top5LapTimes[4], rankColor);
 
             // Acceleration
-            Point tachoPoint = new Point(
-                tachoRect.X +
-                BaseGame.XToRes1600(194),
-                tachoRect.Y +
-                BaseGame.YToRes1200(194));
+            //Point tachoPoint = new Point(                         // JMM - Tacho removed
+            //    tachoRect.X +
+            //   BaseGame.XToRes1600(194),
+            //    tachoRect.Y +
+            //    BaseGame.YToRes1200(194));
             //ingame.RenderOnScreenWithRotation(
             //    tachoPoint, TachoArrowGfxRect, -acceleration*2);
-            if (acceleration < 0)
-                acceleration = 0;
-            if (acceleration > 1)
-                acceleration = 1;
-            float rotation = -2.33f + acceleration * 2.5f;
-            int tachoArrowWidth = BaseGame.XToRes1600(TachoArrowGfxRect.Width);
-            int tachoArrowHeight = BaseGame.YToRes1200(TachoArrowGfxRect.Height);
-            Vector2 rotationPoint = new Vector2(
-                TachoArrowGfxRect.Width / 2,
-                TachoArrowGfxRect.Height - 13);
-            ingame.RenderOnScreenWithRotation(
-                new Rectangle(tachoPoint.X, tachoPoint.Y,
-                tachoArrowWidth, tachoArrowHeight),
-                TachoArrowGfxRect,
-                rotation, rotationPoint);
+            //if (acceleration < 0)
+            //    acceleration = 0;
+            //if (acceleration > 1)
+            //    acceleration = 1;
+            //float rotation = -2.33f + acceleration * 2.5f;
+            //int tachoArrowWidth = BaseGame.XToRes1600(TachoArrowGfxRect.Width);
+            //int tachoArrowHeight = BaseGame.YToRes1200(TachoArrowGfxRect.Height);
+            //Vector2 rotationPoint = new Vector2(
+            //    TachoArrowGfxRect.Width / 2,
+            //    TachoArrowGfxRect.Height - 13);
+            //ingame.RenderOnScreenWithRotation(
+            //    new Rectangle(tachoPoint.X, tachoPoint.Y,
+            //    tachoArrowWidth, tachoArrowHeight),
+            //    TachoArrowGfxRect,
+            //   rotation, rotationPoint);
 
             // Speed in mph
-            TextureFontBigNumbers.WriteNumber(
-                tachoRect.X + BaseGame.XToRes1600(TachoMphGfxRect.X),
-                tachoRect.Y + BaseGame.YToRes1200(TachoMphGfxRect.Y),
-                TachoMphGfxRect.Height,
-                (int)Math.Round(speed));
+            //TextureFontBigNumbers.WriteNumber(
+            //    tachoRect.X + BaseGame.XToRes1600(TachoMphGfxRect.X),
+            //    tachoRect.Y + BaseGame.YToRes1200(TachoMphGfxRect.Y),
+            //    TachoMphGfxRect.Height,
+            //    (int)Math.Round(speed));
 
             // Gear
-            TextureFontBigNumbers.WriteNumber(
-                tachoRect.X + BaseGame.XToRes1600(TachoGearGfxRect.X),
-                tachoRect.Y + BaseGame.YToRes1200(TachoGearGfxRect.Y),
-                TachoGearGfxRect.Height,
-                Math.Min(5, gear));
+            //TextureFontBigNumbers.WriteNumber(
+            //    tachoRect.X + BaseGame.XToRes1600(TachoGearGfxRect.X),
+            //    tachoRect.Y + BaseGame.YToRes1200(TachoGearGfxRect.Y),
+            //    TachoGearGfxRect.Height,
+            //    Math.Min(5, gear));
         }
         #endregion
 

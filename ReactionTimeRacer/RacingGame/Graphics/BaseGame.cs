@@ -1089,8 +1089,7 @@ namespace RacingGame.Graphics
 
             GameSettings.Initialize();
             ApplyResolutionChange();
-            Sound.SetVolumes(GameSettings.Default.SoundVolume,
-                GameSettings.Default.MusicVolume);
+            Sound.SetVolumes(GameSettings.Default.SoundVolume); //JMM - Music removed 6/12
 
             //Init the static screens
             Highscores.Initialize();
