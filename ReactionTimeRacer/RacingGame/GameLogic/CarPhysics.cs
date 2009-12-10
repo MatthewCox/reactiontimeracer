@@ -565,7 +565,7 @@ namespace RacingGame.GameLogic
             // Left/right changes rotation
             if (isCarOnGround)
             {
-                if (Input.KeyboardLeftJustPressed || Input.KeyboardKeyJustPressed(Keys.A))
+                if (Input.KeyboardLeftPressed || Input.Keyboard.IsKeyDown(Keys.A))
                 {
                     MoveIntoLeftLane();
 
@@ -574,7 +574,7 @@ namespace RacingGame.GameLogic
                         StartNewLap();
                     }
                 }
-                else if (Input.KeyboardRightJustPressed || Input.KeyboardKeyJustPressed(Keys.D) || Input.KeyboardKeyJustPressed(Keys.E))
+                else if (Input.KeyboardRightPressed || Input.Keyboard.IsKeyDown(Keys.D) || Input.Keyboard.IsKeyDown(Keys.E))
                 {
                     MoveIntoRightLane();
 
@@ -582,6 +582,10 @@ namespace RacingGame.GameLogic
                     {
                         StartNewLap();
                     }
+                }
+                else
+                {
+                    MoveIntoCenterLane();
                 }
 
                 /*if (Input.MouseXMovement != 0)
@@ -602,13 +606,17 @@ namespace RacingGame.GameLogic
                         Input.GamePad.ThumbSticks.Left.X *
                         MaxRotationPerSec * moveFactor / 1.12345f;*/
                     // Also allow pad to simulate same behaviour as on keyboard
-                    if (Input.GamePadLeftJustPressed)
+                    if (Input.GamePadLeftPressed)
                     {
                         MoveIntoLeftLane();
                     }
-                    else if (Input.GamePadRightJustPressed)
+                    else if (Input.GamePadRightPressed)
                     {
                         MoveIntoRightLane();
+                    }
+                    else
+                    {
+                        MoveIntoCenterLane();
                     }
                 }
             }
@@ -1409,17 +1417,28 @@ namespace RacingGame.GameLogic
             if (lane > -1)
             {
                 carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * 4.5f;
-                lane--;
+                lane = -1;
             }
         }
-
         public void MoveIntoRightLane()
         {
             if (lane < 1)
             {
-                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, -((float)Math.PI / 2.0f))) * 4.5f;
-                lane++;
+                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * -4.5f;
+                lane = 1;
             }
+        }
+        public void MoveIntoCenterLane()
+        {
+            if (lane < 0)
+            {
+                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * -4.5f;
+            }
+            else if (lane > 0)
+            {
+                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * 4.5f;
+            }
+            lane = 0;
         }
         #endregion Lane Changing
     }
