@@ -290,13 +290,6 @@ namespace RacingGame.GameLogic
         Matrix carRenderMatrix = Matrix.Identity;
 
         /// <summary>
-        /// The lane of the track the car is in.
-        /// </summary>
-        int lane = 0;
-
-        bool forwardHasBeenPressed = false;
-
-        /// <summary>
         /// CUSTOM: Hazard Vectors Array.
         /// </summary>
         Vector3[] HazardVectors = new Vector3[100];
@@ -315,6 +308,21 @@ namespace RacingGame.GameLogic
         /// CUSTOM: Brake Hazard.
         /// </summary>
         bool HazardBrake = false;
+
+        /// <summary>
+        /// CUSTOM: Smooth-swerving variable. [12/11/2009 Matthew Cox]
+        /// </summary>
+        float swerveOffset = 0.0f;
+
+        /// <summary>
+        /// CUSTOM: The lane of the track the car is in. [12/11/2009 Matthew Cox]
+        /// </summary>
+        int lane = 0;
+
+        /// <summary>
+        /// CUSTOM: Accelerator pressed yet? [12/11/2009 Matthew Cox]
+        /// </summary>
+        bool forwardHasBeenPressed = false;
         #endregion
 
         #region Properties
@@ -1414,30 +1422,29 @@ namespace RacingGame.GameLogic
         #region Lane Changing
         public void MoveIntoLeftLane()
         {
-            if (lane > -1)
+            carPos -= Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
+            if (swerveOffset < 4.5f)
             {
-                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * 4.5f;
-                lane = -1;
+                swerveOffset += 0.25f;
             }
+            carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
+            
+            lane = -1;
         }
         public void MoveIntoRightLane()
         {
-            if (lane < 1)
+            carPos -= Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
+            if (swerveOffset > -4.5f)
             {
-                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * -4.5f;
-                lane = 1;
+                swerveOffset -= 0.25f;
             }
+            carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
+            lane = 1;
         }
         public void MoveIntoCenterLane()
         {
-            if (lane < 0)
-            {
-                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * -4.5f;
-            }
-            else if (lane > 0)
-            {
-                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * 4.5f;
-            }
+            carPos -= Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
+            swerveOffset = 0.0f;
             lane = 0;
         }
         #endregion Lane Changing
