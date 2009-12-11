@@ -1423,7 +1423,7 @@ namespace RacingGame.GameLogic
         public void MoveIntoLeftLane()
         {
             carPos -= Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
-            if (swerveOffset < 4.5f)
+            if (swerveOffset < 4.25f)
             {
                 swerveOffset += 0.25f;
             }
@@ -1434,7 +1434,7 @@ namespace RacingGame.GameLogic
         public void MoveIntoRightLane()
         {
             carPos -= Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
-            if (swerveOffset > -4.5f)
+            if (swerveOffset > -4.25f)
             {
                 swerveOffset -= 0.25f;
             }
@@ -1443,8 +1443,16 @@ namespace RacingGame.GameLogic
         }
         public void MoveIntoCenterLane()
         {
-            carPos -= Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
-            swerveOffset = 0.0f;
+            if (swerveOffset > 0.0f)
+            {
+                swerveOffset -= 0.25f;
+                carPos -= Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * 0.25f;
+            }
+            if (swerveOffset < 0.0f)
+            {
+                swerveOffset += 0.25f;
+                carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * 0.25f;
+            }
             lane = 0;
         }
         #endregion Lane Changing
