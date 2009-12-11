@@ -524,6 +524,9 @@ namespace RacingGame.GameLogic
             //Added Hazard Bools to Reset
             HazardSwerve = false;
             HazardBrake = false;
+
+            //Added swerveOffset to Reset
+            swerveOffset = 0.0f;
         }
 
         /// <summary>
