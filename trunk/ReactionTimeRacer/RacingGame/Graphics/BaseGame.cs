@@ -1453,7 +1453,7 @@ namespace RacingGame.Graphics
                 PostUIRender();
 
                 //Handle drawing the Trophy
-                /*if (RacingGameManager.InGame && RacingGameManager.Player.Victory)     //JMM - Removed trophy
+                if (RacingGameManager.InGame && RacingGameManager.Player.Victory)
                 {
                     Texture.alphaSprite.Begin(SpriteBlendMode.AlphaBlend);
 
@@ -1473,7 +1473,7 @@ namespace RacingGame.Graphics
                         BaseGame.Width / 4, BaseGame.Height * 2 / 5));
 
                     Texture.alphaSprite.End();
-                }*/
+                }
 
                 ui.RenderTextsAndMouseCursor();
             }
