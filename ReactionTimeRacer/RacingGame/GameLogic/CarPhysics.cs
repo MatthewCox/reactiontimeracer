@@ -977,7 +977,7 @@ namespace RacingGame.GameLogic
                 }
 
 
-                RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(1.57f) * Matrix.CreateTranslation(hazardSpawn), false);
+                RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(4.71f) * Matrix.CreateTranslation(hazardSpawn), false);
                 HazardVectors[HazardVector] = hazardSpawn;
                 HazardVector++;
             }
@@ -1011,15 +1011,15 @@ namespace RacingGame.GameLogic
                     spawnY3 = CarPosition.Y - 4.5f;
                 }
 
-                RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(1.57f) * Matrix.CreateTranslation(CarPosition.X + 30, spawnY1, CarPosition.Z), false);
+                RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(4.71f) * Matrix.CreateTranslation(CarPosition.X + 30, spawnY1, CarPosition.Z), false);
                 HazardVectors[HazardVector] = new Vector3(CarPosition.X + 20, spawnY1, CarPosition.Z);
                 HazardVector++;
 
-                RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(1.57f) * Matrix.CreateTranslation(CarPosition.X + 30, spawnY2, CarPosition.Z), false);
+                RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(4.71f) * Matrix.CreateTranslation(CarPosition.X + 30, spawnY2, CarPosition.Z), false);
                 HazardVectors[HazardVector] = new Vector3(CarPosition.X + 20, spawnY2, CarPosition.Z);
                 HazardVector++;
 
-                RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(1.57f) * Matrix.CreateTranslation(CarPosition.X + 30, spawnY3, CarPosition.Z), false);
+                RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(4.71f) * Matrix.CreateTranslation(CarPosition.X + 30, spawnY3, CarPosition.Z), false);
                 HazardVectors[HazardVector] = new Vector3(CarPosition.X + 20, spawnY3, CarPosition.Z);
                 HazardVector++;
             }
