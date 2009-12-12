@@ -31,16 +31,16 @@ namespace RacingGame.GameScreens
         static readonly Rectangle[] ButtonRects = new Rectangle[]
             {
                 UIRenderer.MenuButtonPlayGfxRect,
-                UIRenderer.MenuButtonHighscoresGfxRect,   // JMM - Removed unneeded menu options REV 16
-                //UIRenderer.MenuButtonOptionsGfxRect,
+                UIRenderer.MenuButtonHighscoresGfxRect,   
+                //UIRenderer.MenuButtonOptionsGfxRect,  // JMM - Removed unneeded menu options
                 //UIRenderer.MenuButtonHelpGfxRect,
                 UIRenderer.MenuButtonQuitGfxRect,
             };
         static readonly Rectangle[] TextRects = new Rectangle[]
             {
                 UIRenderer.MenuTextPlayGfxRect,
-                UIRenderer.MenuTextHighscoresGfxRect, // JMM - Removed unneeded menu options REV 16
-                //UIRenderer.MenuTextOptionsGfxRect,
+                UIRenderer.MenuTextHighscoresGfxRect, 
+                //UIRenderer.MenuTextOptionsGfxRect,    // JMM - Removed unneeded menu options
                 //UIRenderer.MenuTextHelpGfxRect,
                 UIRenderer.MenuTextQuitGfxRect,
             };
@@ -249,8 +249,8 @@ namespace RacingGame.GameScreens
                 switch (SelectedButton)
                 {
                     case 0:
-                        RacingGameManager.AddGameScreen(new GameScreen());  //JMM - Changed to skip car selection screen REV16
-                        break;
+                        RacingGameManager.AddGameScreen(new NameScreen());  //JMM - Changed to skip car selection screen, and goto
+                        break;                                              //name entry screen
                     case 1:
                         RacingGameManager.AddGameScreen(new Highscores());
                         break;
