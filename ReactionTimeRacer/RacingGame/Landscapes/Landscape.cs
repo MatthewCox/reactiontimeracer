@@ -412,7 +412,7 @@ namespace RacingGame.Landscapes
                     modelName.StartsWith("Sign") == false &&
                     modelName.StartsWith("StartLight") == false &&
                     //Added palm
-                    modelName.StartsWith("AlphaPalm") == false)
+                    modelName.StartsWith("SignWarning") == false)
                 {
                     for (int num = 0; num < landscapeObjects.Count; num++)
                         if (Vector3.DistanceSquared(
