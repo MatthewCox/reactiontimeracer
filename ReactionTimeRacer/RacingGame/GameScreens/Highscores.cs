@@ -79,7 +79,7 @@ namespace RacingGame.GameScreens
         /// Number of highscores displayed in this screen.
         /// </summary>
         private const int NumOfHighscores = 10,
-            NumOfHighscoreLevels = 3;
+            NumOfHighscoreLevels = 3;           //JMM - changed from 3 to 1 as only 1 screen needed // back to 3 to test bug
 
         /// <summary>
         /// List of remembered highscores.
@@ -182,7 +182,7 @@ namespace RacingGame.GameScreens
         }
         #endregion
 
-        #region Get top 5 rank lap times
+        /*#region Get top 5 rank lap times                  //JMM - Not needed  
         /// <summary>
         /// Get top 5 rank lap times
         /// </summary>
@@ -199,7 +199,7 @@ namespace RacingGame.GameScreens
                     highscores[level, 4].timeMilliseconds,
                 };
         }
-        #endregion
+        #endregion*/
 
         #region Get rank from current score
         /// <summary>
@@ -266,7 +266,7 @@ namespace RacingGame.GameScreens
         #endregion
 
         #region Render
-        int selectedLevel = 1;
+        int selectedLevel = 0;
         /// <summary>
         /// Render game screen. Called each frame.
         /// </summary>
@@ -309,7 +309,7 @@ namespace RacingGame.GameScreens
             }
             xPos += BaseGame.XToRes(160 + 8);
 
-            // Advanced track
+            /*// Advanced track                                     //JMM - removed advanced and expert highscores
             inBox = Input.MouseInBox(new Rectangle(
                 xPos, yPos, BaseGame.XToRes(125), lineHeight));
             TextureFont.WriteText(xPos, yPos, "Advanced",
@@ -332,7 +332,7 @@ namespace RacingGame.GameScreens
             {
                 Sound.Play(Sound.Sounds.ButtonClick);
                 selectedLevel = 2;
-            }
+            }*/
 
             // Also handle xbox controller input
             if (Input.GamePadLeftJustPressed ||

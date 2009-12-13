@@ -535,15 +535,41 @@ namespace RacingGame.GameLogic
         }
 
         /// <summary>
-        /// Keyboard left just pressed
+        /// Keyboard enter just pressed
+        /// </summary>
+        /// <returns>Bool</returns>
+        public static bool KeyboardEnterJustPressed
+        {
+            get
+            {
+                return keyboardState.IsKeyDown(Keys.Enter) &&
+                    keysPressedLastFrame.Contains(Keys.Enter) == false;
+            }
+        }
+
+        /// <summary>
+        /// Keyboard enter just pressed
+        /// </summary>
+        /// <returns>Bool</returns>
+        public static bool KeyboardUJustPressed
+        {
+            get
+            {
+                return keyboardState.IsKeyDown(Keys.U) &&
+                    keysPressedLastFrame.Contains(Keys.U) == false;
+            }
+        }
+
+        /// <summary>
+        /// Keyboard 'U' just pressed
         /// </summary>
         /// <returns>Bool</returns>
         public static bool KeyboardLeftJustPressed
         {
             get
             {
-                return keyboardState.IsKeyDown(Keys.Left) &&
-                    keysPressedLastFrame.Contains(Keys.Left) == false;
+                return keyboardState.IsKeyDown(Keys.U) &&
+                    keysPressedLastFrame.Contains(Keys.U) == false;
             }
         }
 

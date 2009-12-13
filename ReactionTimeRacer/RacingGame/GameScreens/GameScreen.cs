@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework.Input;
 using RacingGame.GameLogic;
 using RacingGame.Graphics;
 using RacingGame.Helpers;
@@ -126,8 +127,7 @@ namespace RacingGame.GameScreens
                 CarPhysics.MaxPossibleSpeed +
                 // This could be improved
                 0.5f * RacingGameManager.Player.Acceleration,
-                RacingGameManager.Landscape.CurrentTrackName,
-                Highscores.GetTop5LapTimes(TrackSelection.SelectedTrackNumber));
+                RacingGameManager.Landscape.CurrentTrackName); //JMM - removed "Highscores.GetTop5LapTimes(TrackSelection.SelectedTrackNumber" as not needed
 
             if (Input.KeyboardEscapeJustPressed ||
                 Input.GamePadBackJustPressed ||
