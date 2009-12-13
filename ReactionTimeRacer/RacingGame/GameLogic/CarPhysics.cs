@@ -600,20 +600,26 @@ namespace RacingGame.GameLogic
             {
                 if (Input.KeyboardLeftPressed || Input.Keyboard.IsKeyDown(Keys.A))
                 {
-                    MoveIntoLeftLane();
-
-                    if (HazardSwerve)
+                    if (HazardBrake || HazardSwerve)
                     {
-                        StartNewLap();
+                        MoveIntoLeftLane();
+
+                        if (HazardSwerve && lane != 0)
+                        {
+                            StartNewLap();
+                        }
                     }
                 }
                 else if (Input.KeyboardRightPressed || Input.Keyboard.IsKeyDown(Keys.D) || Input.Keyboard.IsKeyDown(Keys.E))
                 {
-                    MoveIntoRightLane();
-
-                    if (HazardSwerve)
+                    if (HazardBrake || HazardSwerve)
                     {
-                        StartNewLap();
+                        MoveIntoRightLane();
+
+                        if (HazardSwerve && lane != 0)
+                        {
+                            StartNewLap();
+                        }
                     }
                 }
                 else
@@ -634,18 +640,58 @@ namespace RacingGame.GameLogic
                 }*/
                 if (Input.IsGamePadConnected)
                 {
-                    /*// More dynamic force changing with gamepad (slow, faster, etc.)
-                    rotationChange -= effectiveSensitivity *
+                    // More dynamic force changing with gamepad (slow, faster, etc.)
+                    if (Input.GamePad.ThumbSticks.Left.X < 0.01)
+                    {
+                        if (HazardBrake || HazardSwerve)
+                        {
+                            MoveIntoLeftLane();
+
+                            if (HazardSwerve && lane != 0)
+                            {
+                                StartNewLap();
+                            }
+                        }
+                    }
+                    else if (Input.GamePad.ThumbSticks.Left.X > 0.01)
+                    {
+                        if (HazardBrake || HazardSwerve)
+                        {
+                            MoveIntoRightLane();
+
+                            if (HazardSwerve && lane != 0)
+                            {
+                                StartNewLap();
+                            }
+                        }
+                    }
+                    /*rotationChange -= effectiveSensitivity *
                         Input.GamePad.ThumbSticks.Left.X *
                         MaxRotationPerSec * moveFactor / 1.12345f;*/
                     // Also allow pad to simulate same behaviour as on keyboard
                     if (Input.GamePadLeftPressed)
                     {
-                        MoveIntoLeftLane();
+                        if (HazardBrake || HazardSwerve)
+                        {
+                            MoveIntoLeftLane();
+
+                            if (HazardSwerve && lane != 0)
+                            {
+                                StartNewLap();
+                            }
+                        }
                     }
                     else if (Input.GamePadRightPressed)
                     {
-                        MoveIntoRightLane();
+                        if (HazardBrake || HazardSwerve)
+                        {
+                            MoveIntoRightLane();
+
+                            if (HazardSwerve && lane != 0)
+                            {
+                                StartNewLap();
+                            }
+                        }
                     }
                     else
                     {
@@ -697,9 +743,9 @@ namespace RacingGame.GameLogic
                     forwardHasBeenPressed = true;
                 }
             }
-            else if (forwardHasBeenPressed)
+            else if (forwardHasBeenPressed && !HazardBrake && !HazardSwerve)
             {
-                StartNewLap();
+                //StartNewLap();
             }
             // Down or right mouse button decelerates
             if (Input.KeyboardDownPressed ||
@@ -711,7 +757,7 @@ namespace RacingGame.GameLogic
                     maxAccelerationPerSec;// * moveFactor;
 
                 //Log time when car hits 0 MPH but only if a brake hazard was spawned.
-                if(HazardBrake && speed <= 0.0f)
+                if(HazardBrake && speed <= 5.0f)
                 {
                     StartNewLap();
                 }
@@ -719,9 +765,17 @@ namespace RacingGame.GameLogic
             else if (Input.IsGamePadConnected)
             {
                 // More dynamic force changing with gamepad (slow, faster, etc.)
-                newAccelerationForce +=
-                    (Input.GamePad.Triggers.Right) *
-                    maxAccelerationPerSec;// *moveFactor;
+                if (Math.Abs(Input.GamePad.Triggers.Right) > 0.2f)
+                {
+                    newAccelerationForce +=
+                        (Input.GamePad.Triggers.Right) *
+                        maxAccelerationPerSec;// *moveFactor;
+
+                    if (!forwardHasBeenPressed && isCarOnGround)
+                    {
+                        forwardHasBeenPressed = true;
+                    }
+                }
                 // Also allow pad to simulate same behaviour as on keyboard
                 if (Input.GamePad.DPad.Up == ButtonState.Pressed)
                 {
@@ -738,11 +792,14 @@ namespace RacingGame.GameLogic
                     newAccelerationForce -=
                         maxAccelerationPerSec;
                     //Start new timer and log time on brake
-                    StartNewLap();
+                    if (HazardBrake && speed <= 5.0f)
+                    {
+                        StartNewLap();
+                    }
                 }
-                else if (forwardHasBeenPressed)
+                else if (forwardHasBeenPressed && !HazardBrake && !HazardSwerve)
                 {
-                    StartNewLap();
+                    //StartNewLap();
                 }
             }
 
@@ -833,7 +890,11 @@ namespace RacingGame.GameLogic
                         speed = (oldSpeed + 100 * moveFactor);
                     if (speed < oldSpeed - 100 * moveFactor)
                         speed = (oldSpeed - 100 * moveFactor);
-
+                    //Log time when car hits 0 MPH but only if a brake hazard was spawned.
+                    if (HazardBrake && speed <= 5.0f)
+                    {
+                        StartNewLap();
+                    }
                     // Remember that we slowed down for generating tracks.
                     downPressed = true;
                 }
@@ -987,15 +1048,15 @@ namespace RacingGame.GameLogic
 
                 if (lane == -1)
                 {
-                    hazardSpawn = new Vector3(CarPosition.X + 10, CarPosition.Y - 4.5f, CarPosition.Z);
+                    hazardSpawn = new Vector3(CarPosition.X + 15, CarPosition.Y - 4.5f, CarPosition.Z);
                 }
                 else if (lane == 1)
                 {
-                    hazardSpawn = new Vector3(CarPosition.X + 10, CarPosition.Y + 4.5f, CarPosition.Z);
+                    hazardSpawn = new Vector3(CarPosition.X + 15, CarPosition.Y + 4.5f, CarPosition.Z);
                 }
                 else
                 {
-                    hazardSpawn = new Vector3(CarPosition.X + 10, CarPosition.Y, CarPosition.Z);
+                    hazardSpawn = new Vector3(CarPosition.X + 15, CarPosition.Y, CarPosition.Z);
                 }
 
 
@@ -1034,15 +1095,15 @@ namespace RacingGame.GameLogic
                 }
 
                 RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(4.71f) * Matrix.CreateTranslation(CarPosition.X + 30, spawnY1, CarPosition.Z), false);
-                HazardVectors[HazardVector] = new Vector3(CarPosition.X + 20, spawnY1, CarPosition.Z);
+                HazardVectors[HazardVector] = new Vector3(CarPosition.X + 30, spawnY1, CarPosition.Z);
                 HazardVector++;
 
                 RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(4.71f) * Matrix.CreateTranslation(CarPosition.X + 30, spawnY2, CarPosition.Z), false);
-                HazardVectors[HazardVector] = new Vector3(CarPosition.X + 20, spawnY2, CarPosition.Z);
+                HazardVectors[HazardVector] = new Vector3(CarPosition.X + 30, spawnY2, CarPosition.Z);
                 HazardVector++;
 
                 RacingGameManager.Landscape.AddObjectToRender("SignWarning", Matrix.CreateRotationZ(4.71f) * Matrix.CreateTranslation(CarPosition.X + 30, spawnY3, CarPosition.Z), false);
-                HazardVectors[HazardVector] = new Vector3(CarPosition.X + 20, spawnY3, CarPosition.Z);
+                HazardVectors[HazardVector] = new Vector3(CarPosition.X + 30, spawnY3, CarPosition.Z);
                 HazardVector++;
             }
             #endregion
@@ -1490,9 +1551,11 @@ namespace RacingGame.GameLogic
             {
                 swerveOffset += 0.25f;
             }
+            else
+            {
+                lane = -1;
+            }
             carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
-            
-            lane = -1;
         }
         public void MoveIntoRightLane()
         {
@@ -1501,8 +1564,11 @@ namespace RacingGame.GameLogic
             {
                 swerveOffset -= 0.25f;
             }
+            else
+            {
+                lane = -1;
+            }
             carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * swerveOffset;
-            lane = 1;
         }
         public void MoveIntoCenterLane()
         {
@@ -1516,7 +1582,10 @@ namespace RacingGame.GameLogic
                 swerveOffset += 0.25f;
                 carPos += Vector3.TransformNormal(carDir, Matrix.CreateFromAxisAngle(carUp, (float)Math.PI / 2.0f)) * 0.25f;
             }
-            lane = 0;
+            if (swerveOffset == 0.0f)
+            {
+                lane = 0;
+            }
         }
         #endregion Lane Changing
     }
