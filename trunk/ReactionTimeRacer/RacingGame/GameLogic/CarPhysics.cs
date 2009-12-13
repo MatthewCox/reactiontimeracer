@@ -323,6 +323,28 @@ namespace RacingGame.GameLogic
         /// CUSTOM: Accelerator pressed yet? [12/11/2009 Matthew Cox]
         /// </summary>
         bool forwardHasBeenPressed = false;
+
+        /// <summary>
+        /// CUSTOM: Has 'U' been pressed
+        /// </summary>
+        bool uPressed = false;
+
+        /// <summary>
+        /// CUSTOM: Has 'M' been pressed
+        /// </summary>
+        bool mPressed = false;
+
+        /// <summary>
+        /// Ignore the mouse unless it moves;
+        /// this is so the mouse does not disrupt game pads and keyboard //JMM - added so mouse can be used on distractions
+        /// </summary>
+        bool ignoreMouse = true;
+
+        /// <summary>
+        /// JMM - Was the player distracted
+        /// </summary>
+        bool distracted = false;
+
         #endregion
 
         #region Properties
@@ -660,7 +682,7 @@ namespace RacingGame.GameLogic
             //newAccelerationForce += maxAccelerationPerSec;
             if (Input.KeyboardUpPressed ||
                 Input.Keyboard.IsKeyDown(Keys.W) ||
-                Input.MouseLeftButtonPressed ||
+                //Input.MouseLeftButtonPressed ||   //JMM - removed so mouse doesnt control car speed
                 Input.GamePadAPressed)
             {
                 //Only accelerates in brake isn't being used
@@ -682,8 +704,8 @@ namespace RacingGame.GameLogic
             // Down or right mouse button decelerates
             if (Input.KeyboardDownPressed ||
                 Input.Keyboard.IsKeyDown(Keys.S) ||
-                Input.Keyboard.IsKeyDown(Keys.O) ||
-                Input.MouseRightButtonPressed)
+                Input.Keyboard.IsKeyDown(Keys.O))
+                //|| Input.MouseRightButtonPressed) //JMM - removed so mosue doesnt control car speed
             {
                 newAccelerationForce -=
                     maxAccelerationPerSec;// * moveFactor;
@@ -1024,6 +1046,44 @@ namespace RacingGame.GameLogic
                 HazardVector++;
             }
             #endregion
+
+            #region Distractions
+            //JMM - Manual Distractions
+            
+            //JMM - Check if 'U' has been pressed
+            if (Input.KeyboardKeyJustPressed(Keys.U))
+            {
+                uPressed = true; 
+            }
+
+            //JMM - Draw distraction 1 if U has been pressed
+            if (uPressed)
+            {
+                int xPos = BaseGame.XToRes(512 - 160 * 3 / 2 + 25);
+                int yPos = BaseGame.YToRes(400);
+                TextureFont.WriteText(xPos, yPos, "Distraction 1!", Color.White);
+
+                distracted = true;
+            }
+
+            //JMM - Check if 'M' has been pressed
+            if (Input.KeyboardKeyJustPressed(Keys.M))
+            {
+                mPressed = true;
+            }
+
+            //JMM - Draw distraction 2 if M has been pressed
+            if (mPressed)
+            {
+                int xPos = BaseGame.XToRes(512 - 160 * 3 / 2 + 25);
+                int yPos = BaseGame.YToRes(500);
+                TextureFont.WriteText(xPos, yPos, "Distraction 2!", Color.White);
+
+                distracted = true;
+            }
+
+            #endregion
+
         }
         #endregion
 

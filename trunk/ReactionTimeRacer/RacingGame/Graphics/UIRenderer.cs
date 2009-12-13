@@ -632,10 +632,10 @@ namespace RacingGame.Graphics
         /// <param name="top5LapTimes">Top 5 lap times</param>
         public void RenderGameUI(int currentGameTime, int bestLapTime,
             int lapNumber, float speed, int gear, float acceleration,
-            string trackName, int[] top5LapTimes)
+            string trackName)           //JMM - removed 'int[] top5LapTimes' as not needed
         {
-            if (top5LapTimes == null)
-                throw new ArgumentNullException("top5LapTimes");
+            /*if (top5LapTimes == null)                                 //JMM - not needed
+                throw new ArgumentNullException("top5LapTimes");*/
 
             Color baseUIColor = Color.White;//ColorHelper.HalfAlpha;
 

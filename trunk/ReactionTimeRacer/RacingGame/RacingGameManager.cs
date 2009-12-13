@@ -164,10 +164,10 @@ namespace RacingGame
         {
             get
             {
-                // Only if not in Game, not in splash screen!
+                // Only if not in splash screen!
                 return gameScreens.Count > 0 &&
-                    gameScreens.Peek().GetType() != typeof(GameScreen) &&
-                    gameScreens.Peek().GetType() != typeof(SplashScreen);
+                    //gameScreens.Peek().GetType() != typeof(GameScreen) && //JMM - removed so cursor will render ingame for distractions
+                    gameScreens.Peek().GetType() != typeof(SplashScreen) ;
             }
         }
 
